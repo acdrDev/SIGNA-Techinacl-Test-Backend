@@ -1,0 +1,23 @@
+services:
+  api:
+    build: .
+    ports:
+      - '5000:5000'
+    volumes:
+      - './:/app'
+    environment:
+      DB_HOST: 'pgsql'
+      DB_PORT: '5432'
+      DB_USERNAME: '${DB_USERNAME}'
+      DB_PASSWORD: '${DB_PASSWORD:-secret}'
+      DB_DATABASE: '${DB_DATABASE}'
+      FLASK_ENV: development
+  pgsql:
+    image: 'postgres:17'
+    ports:
+      - '5432:5432'
+    environment:
+      PGPASSWORD: '${DB_PASSWORD:-secret}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
